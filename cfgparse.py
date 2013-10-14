@@ -1,10 +1,11 @@
 """cfgparse - a powerful, extensible, and easy-to-use configuration parser.
 
 By Dan Gass <dan.gass@gmail.com>
+Ported to Python 3.32 by HafizBistar <hafiz.bistar@gmail.com>
 
 If you have problems with this module, please file bugs through the Source
 Forge project page:
-  http://sourceforge.net/projects/cfgparse
+  https://github.com/hafizbistar/cfgparse
 """
 
 # @future use option note when get error
@@ -17,7 +18,10 @@ __version__ = "1.00"
 __all__ = []
 
 __copyright__ = """
-Copyright (c) 2004 by Daniel M. Gass.   All rights reserved.
+Copyright (c) 2013 by Hafiz Bistar. (BSD / PSF)  All rights reserved.
+    See LICENSE.md and LICENSE.PSF file for details.
+
+Copyright (c) 2004 by Daniel M. Gass. (PSF)   All rights reserved.
 Copyright (c) 2001-2004 Gregory P. Ward.  All rights reserved.
 Copyright (c) 2002-2004 Python Software Foundation.  All rights reserved.
 
