@@ -1189,8 +1189,12 @@ class ConfigFileIni(ConfigFile):
                 self.objects.append(self)
             def add_option(self,name,value,help):
                 if help:
-                    helplines = textwrap.fill(help,77).split('\n')
-                    lines = ['# %s' % line for line in helplines]
+                    lines = []
+                    xlines = help.splitlines()
+                    for xline in xlines:
+                        helplines = textwrap.fill(xline,77).split('\n')
+                        zlines = ['# %s' % line for line in helplines]
+                        lines = lines + zlines
                 else:
                     lines = []
                 lines.append('%s = %s' % (name,value))
