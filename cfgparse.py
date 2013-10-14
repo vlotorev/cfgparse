@@ -3,8 +3,7 @@
 By Dan Gass <dan.gass@gmail.com>
 Ported to Python 3.32 by HafizBistar <hafiz.bistar@gmail.com>
 
-If you have problems with this module, please file bugs through the Source
-Forge project page:
+If you have problems with this module, please file bugs through the project page:
   https://github.com/hafizbistar/cfgparse
 """
 
