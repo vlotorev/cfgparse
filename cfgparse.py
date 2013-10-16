@@ -892,8 +892,7 @@ class OptionGroup(OptionContainer):
         result += OptionContainer.format_help(self, formatter)
         formatter.dedent()
         return result
-    # </borrowed>
-        
+    # </borrowed>        
 
 class ConfigFile(object):
     def __init__(self,cfgfile,content,keys,parent,parser):
@@ -973,7 +972,6 @@ class ConfigFile(object):
 
             # Mark it as done so it isn't parsed twice
             self.parsed = True
-
 
 class ConfigFilePy(ConfigFile):
 
@@ -1192,7 +1190,12 @@ class ConfigFileIni(ConfigFile):
                     xlines = help.splitlines()
                     for xline in xlines:
                         helplines = textwrap.fill(xline,77).split('\n')
-                        zlines = ['# %s' % line for line in helplines]
+                        for line in helplines:
+                            zlines = []
+                            if(line == ''):
+                                zlines.append('')
+                            else:
+                                zlines.append('# %s' % line)
                         lines = lines + zlines
                 else:
                     lines = []
@@ -1307,7 +1310,6 @@ class ConfigFileIni(ConfigFile):
             f = open(file,'w')
             f.write(content)
             f.close()
-
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 #
