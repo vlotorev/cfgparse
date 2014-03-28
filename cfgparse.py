@@ -52,12 +52,17 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import configparser as _ConfigParser
 from io import StringIO
 import os
 import re
 import sys
 import textwrap
+
+PY3 = sys.version_info[0] == 3
+if PY3:
+    import configparser as _ConfigParser
+else:
+    import ConfigParser as _ConfigParser
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 #
@@ -71,6 +76,35 @@ try:
 except ImportError:
     _ = lambda arg: arg
 
+#exec_ function borrowed from https://bitbucket.org/gutworth/six
+
+
+if PY3:
+    exec_ = __builtins__['exec']
+
+    def reraise(tp, value, tb=None):
+        if value.__traceback__ is not tb:
+            raise value.with_traceback(tb)
+        raise value
+
+else:
+    def exec_(_code_, _globs_=None, _locs_=None):
+        """Execute code in a namespace."""
+        if _globs_ is None:
+            frame = sys._getframe(1)
+            _globs_ = frame.f_globals
+            if _locs_ is None:
+                _locs_ = frame.f_locals
+            del frame
+        elif _locs_ is None:
+            _locs_ = _globs_
+        exec("""exec _code_ in _globs_, _locs_""")
+
+
+    exec_("""def reraise(tp, value, tb=None):
+    raise tp, value, tb
+""")
+    
 class HelpFormatter:
     """
     Abstract base class for formatting option help.  ConfigParser
@@ -986,7 +1020,7 @@ class ConfigFilePy(ConfigFile):
             cfgfile = os.path.join(self.path,self.filename)
             execfile(cfgfile,options)
         else:
-            exec (self.get_as_str() in options)
+            exec_(self.get_as_str() in options)
 
         # Update the keys.  "KEYS_VARIABLE" option used to specify the
         # environment variable that holds additional default keys, if
@@ -1575,7 +1609,7 @@ class ConfigParser(OptionContainer):
     def write_errors(self,errors):
         CFGPARSE_USER_ERROR = '\n' + '\n'.join(errors)
         if not self.exception:
-            sys.stderr.write("ERROR: Configuration File Parser\n")           
+            sys.stderr.write("ERROR: Configuration File Parser\n")
             sys.stderr.write(CFGPARSE_USER_ERROR)
             self.system_exit()
         else:

@@ -1053,17 +1053,20 @@ def _test():
     """>>> None # Test"""
     print ("="*80)
     os.getenv = _getenv
+    _sys_exit = sys.exit
     sys.exit = _new_exit
     _sys_stderr = sys.stderr
     sys.stderr = StringIO()
     import doctest
-    doctest.testmod()
+    failure_count, test_count = doctest.testmod()
     temp.clean()
     sys.stderr = _sys_stderr
+    sys.exit = _sys_exit
+    return failure_count, test_count
 
 if __name__ == "__main__":
-    _test()
-
+    failure_count, test_count = _test()
+    sys.exit(failure_count > 0)
 
 
 
